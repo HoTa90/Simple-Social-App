@@ -8,7 +8,6 @@ async function NavBar() {
 	const user = await currentUser();
 	if (user) {
 		const syncedUser = await syncUser();
-			console.log(syncedUser)
 	}
 
 
