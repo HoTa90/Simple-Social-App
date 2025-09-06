@@ -46,9 +46,27 @@ export async function getUser(clerkId: string) {
 				select: {
 					followers: true,
 					following: true,
-					posts: true
-				}
-			}
-		}
-	})
+					posts: true,
+				},
+			},
+		},
+	});
+}
+
+export async function getDbUserId() { // only fetches user.id from db
+	const { userId: clerkId } = await auth();
+	if (!clerkId) {
+		throw new Error("You are unauthenticated!");
+	}
+
+	const user = await prisma.user.findUnique({
+		where: { clerkId },
+		select: { id: true },
+	});
+
+	if (!user) {
+		throw new Error("User not found in db");
+	}
+
+	return user.id;
 }
