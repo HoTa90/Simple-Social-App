@@ -2,6 +2,7 @@ import { getSuggestUsers } from "@/actions/userAction"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import FollowButton from "./FollowButton";
 
 
 async function SuggestUsers() {
@@ -33,7 +34,7 @@ async function SuggestUsers() {
                   <p className="text-muted-foreground">{user._count.followers} followers</p>
                 </div>
               </div>
-            
+              <FollowButton userId={user.id} />
             </div>
           ))}
         </div>
