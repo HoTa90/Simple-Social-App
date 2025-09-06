@@ -58,9 +58,8 @@ export async function getDbUserId() {
 	// only fetches user.id from db
 	const { userId: clerkId } = await auth();
 	if (!clerkId) {
-		throw new Error("You are unauthenticated!");
+		return null;
 	}
-
 	const user = await prisma.user.findUnique({
 		where: { clerkId },
 		select: { id: true },
@@ -77,6 +76,10 @@ export async function getSuggestUsers() {
 	// get 3 random users
 	try {
 		const userId = await getDbUserId();
+
+		if (!userId) {
+			return [];
+		}
 
 		const randomUsers = await prisma.user.findMany({
 			where: {
@@ -120,6 +123,10 @@ export async function toggleFollow(targetUserId: string) {
 
 		if (userId === targetUserId) {
 			throw new Error("Cant Follow yourself");
+		}
+
+		if (!userId) {
+			return;
 		}
 
 		const existingFollow = await prisma.follows.findUnique({
