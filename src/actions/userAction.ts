@@ -53,7 +53,8 @@ export async function getUser(clerkId: string) {
 	});
 }
 
-export async function getDbUserId() { // only fetches user.id from db
+export async function getDbUserId() {
+	// only fetches user.id from db
 	const { userId: clerkId } = await auth();
 	if (!clerkId) {
 		throw new Error("You are unauthenticated!");
@@ -69,4 +70,48 @@ export async function getDbUserId() { // only fetches user.id from db
 	}
 
 	return user.id;
+}
+
+export async function getSuggestUsers() {
+	// get 3 random users
+	try {
+		const userId = await getDbUserId();
+
+		const randomUsers = await prisma.user.findMany({
+			where: {
+				AND: [
+					{ NOT: {id: userId}
+
+					},
+					{
+						NOT: {
+							followers: {
+								some: {
+									followerId: userId
+								}
+							}
+						}
+
+					}
+				]
+			},
+			select: {
+				id: true,
+				name: true,
+				username: true,
+				image: true,
+				_count: {
+					select: {
+						followers: true,
+					}
+				}
+			},
+			take: 3
+		})
+
+		return randomUsers;
+	} catch (err) {
+		console.log("Error fetchign random users ", err)
+		return [];
+	}
 }
