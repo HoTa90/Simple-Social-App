@@ -20,7 +20,6 @@ async function SideBar() {
 
 	if (!user) return null
 
-	console.log(user)
 	  return (
     <div className="sticky top-20">
       <Card>
