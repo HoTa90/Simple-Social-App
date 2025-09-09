@@ -10,6 +10,8 @@ export default async function Home() {
 	const posts = await getPosts();
 	const dbUserId = await getDbUserId();
 
+	if (!dbUserId) return
+
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
 			<div className="lg:col-span-6 ">

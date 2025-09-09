@@ -23,9 +23,10 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string }) {
 	const [isCommenting, setIsCommenting] = useState(false);
 	const [isLiking, setIsLiking] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
-	const [hasLiked, setHasLiked] = useState(post.likes.some((l) => (l.userId = dbUserId)));
+	const [hasLiked, setHasLiked] = useState(post.likes.some((l) => (l.userId === dbUserId)));
 	const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
 	const [showComments, setShowComments] = useState(false)
+
 
 	const handleLike = async () => {
 		if (isLiking) return;
@@ -38,7 +39,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string }) {
 			await toggleLike(post.id);
 		} catch (err) {
 			setOptimisticLikes(post._count.likes);
-			setHasLiked(post.likes.some((l) => (l.userId = dbUserId)));
+			setHasLiked(post.likes.some((l) => (l.userId === dbUserId)));
 		} finally {
 			setIsLiking(false);
 		}

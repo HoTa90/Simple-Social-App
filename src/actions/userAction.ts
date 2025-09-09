@@ -58,7 +58,7 @@ export async function getDbUserId() {
 	// only fetches user.id from db
 	const { userId: clerkId } = await auth();
 	if (!clerkId) {
-		return null;
+		return null
 	}
 	const user = await prisma.user.findUnique({
 		where: { clerkId },
