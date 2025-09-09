@@ -1,4 +1,5 @@
 import { getProfileByUsername, getUserLikedPosts, getUserPosts, isFollowing } from "@/actions/profileActions";
+import { getDbUserId } from "@/actions/userAction";
 import ProfilePageClient from "@/components/ProfilePageClient";
 import { notFound } from "next/navigation";
 
@@ -17,6 +18,7 @@ async function ProfilePageServer({ params }: { params: { username: string } }) {
 	if (!user) {
 		notFound();
 	}
+	const viewerDbId = await getDbUserId();
 
 	const [posts, likedPosts, isCurrentlyFollowing] = await Promise.all([
 		getUserPosts(user.id),
@@ -29,6 +31,7 @@ async function ProfilePageServer({ params }: { params: { username: string } }) {
 	posts= {posts}
 	likedPosts={likedPosts}
 	isFollowing={isCurrentlyFollowing}
+	viewerId={viewerDbId}
 	/>;
 }
 
