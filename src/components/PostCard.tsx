@@ -17,7 +17,7 @@ import { DeleteAlertDialog } from "./DeleteAlertDialog";
 type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
 
-function PostCard({ post, dbUserId }: { post: Post; dbUserId: string }) {
+function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 	const { user } = useUser();
 	const [newComment, setNewComment] = useState("");
 	const [isCommenting, setIsCommenting] = useState(false);
