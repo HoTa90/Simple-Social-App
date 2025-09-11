@@ -4,8 +4,7 @@ import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import { getUser } from "@/actions/userAction";
 import Link from "next/link";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarImage } from "./ui/avatar";
+import { AvatarImage, Avatar } from "./ui/avatar";
 import { Separator } from "./ui/separator";
 import { LinkIcon, MapPinIcon } from "lucide-react";
 
@@ -65,7 +64,7 @@ async function SideBar() {
               <div className="flex items-center text-muted-foreground">
                 <LinkIcon className="w-4 h-4 mr-2 shrink-0" />
                 {user.website ? (
-                  <a href={`${user.website}`} className="hover:underline truncate" target="_blank">
+                  <a href={user.website} className="hover:underline truncate" target="_blank">
                     {user.website}
                   </a>
                 ) : (
